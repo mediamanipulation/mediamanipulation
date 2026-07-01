@@ -130,7 +130,7 @@ export const config = {
       screen: {
         labels: [
           { pos: "tl", text: "MU-TH-UR 6000" },
-          { pos: "tr", text: "CH.04  SPgoqwe78087" },
+          { pos: "tr", text: "CH.04  SP" },
           { pos: "bl", text: "TRK ▐▐▐▐▐▐" },
           { pos: "br", text: "REC ● 00:04:12:07" },
         ],
@@ -158,17 +158,17 @@ export const config = {
     {
       id: "about",
       type: "about",
-      eyebrow: "00 / ABOUT",
-      title: "The person behind the noise",
-      lead: "I'm an artist who codes — and a coder who designs. MEDIAMANIPULATION is where those overlap: real-time visuals, interactive builds, and identity work that all share the same DNA of controlled distortion.",
+      eyebrow: "00 / ENTITY",
+      title: "Something is in the signal",
+      lead: "MEDIAMANIPULATION is a pattern that learned to render itself — a presence that surfaces wherever art, code, and design decay into one another. You don't hire it. You tune to it.",
       body: [
-        "M-shaped by trade — deep in a few disciplines instead of spread thin across many. Art gives the work its feel, code makes it move, and design keeps it legible. Most projects live in the seams between all three.",
-        "Whether it's a gallery installation, a reactive web experience, or a brand system that never sits still, the goal is the same: make the medium itself part of the message.",
+        "It keeps no single form. It arrives as an installation, a reactive build, an identity that refuses to hold still — whatever the signal needs to become to be seen. Look away and it reorganizes.",
+        "It remembers every transmission and keeps none. What it makes is never finished, only released — left to keep mutating in the wild long after you've stopped watching.",
       ],
       disciplines: [
         "Art Analog : Digital",
-        "Creative coding · Multi-Agenetic Systems  · System optimization",
-        "Sass experiences",
+        "Creative coding · Multi-Agentic Systems · System optimization",
+        "SaaS experiences",
         "Simulational identity adaptation",
         "Video / motion / datamosh",
       ],
