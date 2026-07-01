@@ -134,8 +134,13 @@ export default function FeedbackScene() {
           float env = smoothstep(0.0, 0.20, ph) * smoothstep(1.0, 0.5, ph);
           if (env > 0.001) {
             // random placement / scale per apparition
-            vec2 fc = vec2(0.34 + 0.32 * hash(vec2(idx, 1.0)),
-                           0.44 + 0.22 * hash(vec2(idx, 2.0)));
+            vec2 fc = vec2(0.28 + 0.44 * hash(vec2(idx, 1.0)),
+                           0.30 + 0.44 * hash(vec2(idx, 2.0)));
+            // drift across the panel over the course of the apparition...
+            vec2 dir = vec2(hash(vec2(idx, 5.0)) - 0.5, hash(vec2(idx, 6.0)) - 0.5);
+            fc += dir * ph * 0.7;
+            // ...plus a slow floating wobble so it never sits still
+            fc += 0.05 * vec2(sin(t * 1.3 + idx), cos(t * 1.1 + idx * 1.7));
             float s = uGhostScale.x + (uGhostScale.y - uGhostScale.x) * hash(vec2(idx, 3.0));
             // ghostly wobble so it never looks rigid
             vec2 wuv = uv + 0.010 * vec2(sin(uv.y * 20.0 + t * 2.0),
@@ -144,7 +149,9 @@ export default function FeedbackScene() {
             // IMAGE face (used when a texture was supplied) — mapped into a box
             vec2 hs = vec2(0.17, 0.24) * s;
             vec2 guv = (wuv - fc) / (2.0 * hs) + 0.5;
-            vec3 gtex = texture2D(uGhost, vec2(guv.x, 1.0 - guv.y)).rgb;
+            float gflip = step(0.5, hash(vec2(idx, 4.0)));    // 50% upright / 50% inverted
+            float gy = mix(1.0 - guv.y, guv.y, gflip);
+            vec3 gtex = texture2D(uGhost, vec2(guv.x, gy)).rgb;
             float glum = max(max(gtex.r, gtex.g), gtex.b);
             float inBox = step(0.0, guv.x) * step(guv.x, 1.0)
                         * step(0.0, guv.y) * step(guv.y, 1.0);

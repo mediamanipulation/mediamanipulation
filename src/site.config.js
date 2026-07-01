@@ -117,7 +117,7 @@ export const config = {
       type: "hero",
       eyebrow: "MEDIAMANIPULATION",
       title: "MEDIAMANIPULATION",
-      sub: "Multidisciplinary maker — a hive of one — transmitting across generative art, creative code, and design. We take clean signal, run it through the machine, and let it decay into something that reads on purpose.",
+      sub: "Multidisciplinary maker — a hive of signals and results — transmitting across generative art, creative code, and design. We take faint echo, run it through the machine, and let it decay into something that reads on purpose.",
       cta: { label: "See the work", href: "#work" },
       // broadcast-monitor HUD chrome — all optional, all editable here:
       hud: {
