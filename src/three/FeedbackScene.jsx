@@ -96,36 +96,40 @@ export default function FeedbackScene() {
           return 1.0 - smoothstep(0.75, 1.0, length((p - c) / r));
         }
 
+        // one layer of a procedural starfield: round, size-varied, twinkling
+        // stars, one per cell at a random sub-position (most cells empty).
+        float starLayer(vec2 p, float cells, float thresh){
+          vec2 g = p * cells;
+          vec2 id = floor(g);
+          float tb = floor(uTime * 40.0);             // ~40 relocations / second
+          float r = hash(id + tb);                    // presence flickers each bucket
+          if (r < thresh) return 0.0;
+          vec2 off = vec2(hash(id + tb + 3.1), hash(id + tb + 7.7)) - 0.5; // full-cell random pos
+          float d = length(fract(g) - 0.5 - off);
+          float size = mix(0.10, 0.34, hash(id + tb + 1.3));
+          float s = smoothstep(size, 0.0, d);
+          return s * mix(0.5, 1.0, hash(id + tb + 9.0));
+        }
+
         void main(){
           vec2 uv = vUv;
           float t = uTime;
-          float tf = floor(t * 60.0);                     // ~60hz temporal seed
+          float tf = floor(t * 20.0);                     // flicker seed
 
-          // analog sync noise: some rows jitter horizontally
-          float row = floor(uv.y * uRes.y / 3.0);
-          float jitter = (hash(vec2(row, tf)) - 0.5) * 0.05
-                       * step(0.82, hash(vec2(row, tf + 3.0)));
-          vec2 suv = vec2(uv.x + jitter, uv.y);
+          // --- layered starfield (aspect-corrected so stars stay round) ---
+          float aspect = uRes.x / max(uRes.y, 1.0);
+          vec2 p = vec2(uv.x * aspect, uv.y);
+          float sf = starLayer(p, 22.0, 0.55)              // near: bigger
+                   + starLayer(p + 5.0, 48.0, 0.60) * 0.8  // mid
+                   + starLayer(p + 11.0, 95.0, 0.62) * 0.65 // far
+                   + starLayer(p + 19.0, 150.0, 0.52) * 0.6  // deep dust
+                   + starLayer(p + 27.0, 240.0, 0.42) * 0.55 // fine snow
+                   + starLayer(p + 33.0, 340.0, 0.38) * 0.5; // ultra-fine snow
+          // occasional single-frame flare keeps the "static" pulse
+          float pop = step(0.9985, hash(floor(uv * uRes.xy / 2.0) + tf));
+          sf = max(sf, pop);
 
-          // crisp high-contrast white-noise snow
-          vec2 px = floor(suv * uRes.xy);
-          float n = hash(px + tf);
-          n = clamp((n - 0.5) * 1.7 + 0.5, 0.0, 1.0);     // punch to black/white
-          vec3 col = vec3(n);
-
-          // sparse colored chroma sparkle
-          float sp = step(0.965, hash(px + tf + 11.0));
-          col += sp * vec3(hash(px + 1.0), hash(px + 2.0), hash(px + 3.0)) * 0.9;
-
-          // rolling vertical-hold bar drifting down
-          float bar = fract(uv.y - t * 0.15);
-          float roll = smoothstep(0.0, 0.04, bar) * smoothstep(0.16, 0.10, bar);
-          col += roll * 0.20;
-
-          // occasional signal dropout: brief torn frame
-          float drop = step(0.985, hash(vec2(tf, 5.0)));
-          float tear = step(0.5, hash(vec2(floor(uv.y * 80.0), tf)));
-          col = mix(col, vec3(tear), drop * 0.55);
+          vec3 col = vec3(sf) * vec3(0.92, 0.96, 1.0);     // faint blue-white
 
           // --- ghost faces surfacing from the snow ---
           float cyc = t / uGhostPeriod;                     // a face every ~period s
@@ -187,20 +191,11 @@ export default function FeedbackScene() {
     const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
     scene.add(quad);
 
-    let rtA, rtB;
-    function makeTargets(w, h) {
-      const opt = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter };
-      rtA = new THREE.WebGLRenderTarget(w, h, opt);
-      rtB = new THREE.WebGLRenderTarget(w, h, opt);
-    }
-
     function resize() {
       const w = mount.clientWidth || window.innerWidth;
       const h = mount.clientHeight || window.innerHeight;
       renderer.setSize(w, h, false);
       uniforms.uRes.value.set(w * dpr, h * dpr);
-      if (rtA) { rtA.dispose(); rtB.dispose(); }
-      makeTargets(Math.floor(w * dpr), Math.floor(h * dpr));
     }
     resize();
     window.addEventListener("resize", resize);
@@ -227,36 +222,37 @@ export default function FeedbackScene() {
     let raf;
     const frameStep = reduced ? 4 : 1;
     let frame = 0;
+    let contextLost = false;
 
     function loop() {
       raf = requestAnimationFrame(loop);
       frame++;
-      if (!visible) return;
+      if (!visible || contextLost) return;
       if (reduced && frame % frameStep !== 0) return;
 
+      // pure per-frame noise → renders straight to screen (no feedback targets,
+      // so it can never decay to black and uses far less GPU/memory)
       uniforms.uTime.value = clock.getElapsedTime();
-      uniforms.uPrev.value = rtA.texture;
-
-      // render into rtB using rtA as previous
-      renderer.setRenderTarget(rtB);
-      renderer.render(scene, camera);
-
-      // draw rtB to screen
-      uniforms.uPrev.value = rtB.texture;
       renderer.setRenderTarget(null);
       renderer.render(scene, camera);
-
-      const tmp = rtA; rtA = rtB; rtB = tmp; // swap
     }
     loop();
+
+    // recover from WebGL context loss (common on iOS/Safari when the tab is
+    // backgrounded, idle, or memory-pressured) instead of staying blank forever
+    const canvas = renderer.domElement;
+    function onContextLost(e) { e.preventDefault(); contextLost = true; }
+    function onContextRestored() { contextLost = false; clock.start(); }
+    canvas.addEventListener("webglcontextlost", onContextLost, false);
+    canvas.addEventListener("webglcontextrestored", onContextRestored, false);
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onMouse);
+      canvas.removeEventListener("webglcontextlost", onContextLost);
+      canvas.removeEventListener("webglcontextrestored", onContextRestored);
       obs && obs.disconnect();
-      rtA && rtA.dispose();
-      rtB && rtB.dispose();
       material.dispose();
       quad.geometry.dispose();
       renderer.dispose();

@@ -90,7 +90,7 @@ export const config = {
     // point `image` at it (e.g. "/ghost.png") for a realistic reveal. If the
     // file is missing, a procedural screaming face is used as a fallback.
     ghost: {
-      image: "/ghost.jpg",
+      image: "/ghost.png",
       period: 5,          // seconds between apparitions (lower = more often)
       scale: [0.8, 2.6],  // [min, max] size — small distant faces ↔ huge close ones
       intensity: 1.35,    // how strongly the face reads through the static
@@ -117,7 +117,7 @@ export const config = {
       type: "hero",
       eyebrow: "MEDIAMANIPULATION",
       title: "MEDIAMANIPULATION",
-      sub: "Multidisciplinary maker — a hive of signals and results — transmitting across generative art, creative code, and design. We take faint echo, run it through the machine, and let it decay into something that reads on purpose.",
+      sub: "Multidisciplinary maker — a hive of signals and results — transmitting across generative anomaly, emergent systems, and design. Takes faint echos, runs it through machine, and lets it decay into something that reads on purpose.",
       cta: { label: "See the work", href: "#work" },
       // broadcast-monitor HUD chrome — all optional, all editable here:
       hud: {
@@ -159,18 +159,17 @@ export const config = {
       id: "about",
       type: "about",
       eyebrow: "00 / ENTITY",
-      title: "Something is in the signal",
-      lead: "MEDIAMANIPULATION is a pattern that learned to render itself — a presence that surfaces wherever art, code, and design decay into one another. You don't hire it. You tune to it.",
+      title: "is Something in the signal",
+      lead: "mEDIAmANIPULATION is a pattern that learned to render itself — a presence that surfaces wherever simUlation, code, and design decay into one another. You don't hire it. You tune to it.",
       body: [
         "It keeps no single form. It arrives as an installation, a reactive build, an identity that refuses to hold still — whatever the signal needs to become to be seen. Look away and it reorganizes.",
         "It remembers every transmission and keeps none. What it makes is never finished, only released — left to keep mutating in the wild long after you've stopped watching.",
       ],
       disciplines: [
-        "Art Analog : Digital",
-        "Creative coding · Multi-Agentic Systems · System optimization",
-        "SaaS experiences",
-        "Simulational identity adaptation",
-        "Video / motion / datamosh",
+        // "Art Analog : Digital",
+        "· System optimization ·",
+        "· Multi-Agentic Systems ·",
+        "· Simulational identity adaptation · ",
       ],
     },
     {
@@ -188,18 +187,18 @@ export const config = {
       id: "method",
       type: "steps",
       eyebrow: "02 / PROCESS",
-      title: "How the work gets made",
+      title: "how Work gets made",
       steps: [
         { n: "01", t: "Capture", d: "Start from a clean source — footage, type, a live feed, a data stream." },
         { n: "02", t: "Corrupt", d: "Introduce controlled failure: feedback, displacement, decay, code that misbehaves on purpose." },
         { n: "03", t: "Compose", d: "Sculpt the noise into something that reads as intentional and designed." },
-        { n: "04", t: "Ship", d: "Deliver it — installation, film, brand system, or a reactive web build." },
+        { n: "04", t: "Coerce", d: "Deliver it — installation, film, brand system, or a reactive web build." },
       ],
     },
     {
       id: "signal",
       type: "marquee",
-      text: "ART · CODE · DESIGN · MULTI AGENTIC SYSTEMS · MOTION · IDENTITY · FEEDBACK · ",
+      text: " SIMULATION · NOISE · DESIGN · MULTI AGENTIC SYSTEMS · MOTION · IDENTITY · FEEDBACK · ADAPTATION ·",
     },
     {
       id: "contact",
