@@ -123,7 +123,7 @@ export const config = {
       hud: {
         sideLabel: "CH.04 // SIGNAL LOCKED",           // rotated label up the left edge
         status: "REC",                                  // blinking ● status
-        meta: ["FMT / RGB-SPLIT", "SIG ▓▓▓▓░", "TC 00:04:12:07"], // mono readouts
+        meta: ["FMT / RGB-SPLIT", "SIG ▓▓▓▓░", "EST. 1998", "TC 00:04:12:07"], // mono readouts
       },
       // on-screen VHS / broadcast overlays inside the monitor panel.
       // pos: tl | tr | bl | br (corner anchors); text is free-form.
@@ -178,10 +178,47 @@ export const config = {
       eyebrow: "01 / WORK",
       title: "Selected transmissions",
       // Add projects here and the grid fills automatically. Shape of each item:
-      //   { k: "ART|CODE|DEV|DESIGN|MOTION", t: "Title", d: "One line.", tag: "Label" }
+      //   { k: "ART|CODE|DEV|DESIGN|MOTION", t: "Title", d: "One line.", tag: "Label",
+      //     href: "https://..." }   // optional — makes the whole card a link
       // Empty array → the `empty` message below renders instead of a broken grid.
       empty: "New transmissions incoming — work landing here soon.",
-      items: [],
+      items: [
+        {
+          k: "MOTION", t: "The Rising",
+          d: "A grindhouse short performed by a trained identity — LoRA-consistent character, agent-assisted shots, assembled end to end by the studio pipeline.",
+          tag: "SHORT FILM", href: "https://www.youtube.com/watch?v=z3QFIJ-98f8",
+        },
+        {
+          k: "CODE", t: "Grindhouse",
+          d: "1970s film-print damage for ComfyUI — gate weave, halation, dust, scratch. Decay, calibrated. It ran its own 30-second broadcast ad.",
+          tag: "COMFYUI NODE", href: "https://www.youtube.com/watch?v=TvmnEcIMEOY",
+        },
+        {
+          k: "DEV", t: "Cutroom / Greenlight",
+          d: "A film studio that runs itself — WYSIWYG editor with an embedded AI copilot, carrying a script all the way to finished export.",
+          tag: "PLATFORM",
+        },
+        {
+          k: "CODE", t: "Optimizer University",
+          d: "Twelve interactive DSPy prompt-optimization notebooks with real before/after results. Measure · iterate · improve.",
+          tag: "NOTEBOOKS", href: "https://github.com/mediamanipulation/dspy-optimization-notebooks",
+        },
+        {
+          k: "CODE", t: "ASL Classifier",
+          d: "99.96% in the lab, 11.3% in the wild. The diagnosis, the fix, and a synthetic-data machine built inside Unreal Engine.",
+          tag: "ML", href: "https://github.com/mediamanipulation/ASL-classifier",
+        },
+        {
+          k: "DEV", t: "Context Bridge",
+          d: "A VS Code extension that streams developer intent — behavior, never code — into AI agent sessions.",
+          tag: "EXTENSION", href: "https://github.com/mediamanipulation/context-bridge",
+        },
+        {
+          k: "ART", t: "Nexus Tarot",
+          d: "A multi-agent tarot entity — DSPy reasoning components, three interfaces, one voice bridging silicon and spirit.",
+          tag: "AGENTIC",
+        },
+      ],
     },
     {
       id: "method",
@@ -212,11 +249,10 @@ export const config = {
   ],
 
   footer: {
-    note: "© " + new Date().getFullYear() + " MEDIAMANIPULATION. All signal reserved.",
+    note: "© " + new Date().getFullYear() + " MEDIAMANIPULATION · transmitting since 1998 · operated by Craig \"Pat\" McSpadden, St. Louis",
     links: [
-      { label: "Instagram", href: "#" },
-      { label: "Facebook", href: "#" },
-      { label: "GitHub", href: "#" },
+      { label: "GitHub", href: "https://github.com/mediamanipulation" },
+      { label: "YouTube", href: "https://www.youtube.com/@guymandude2774" },
       { label: "Email", href: "mailto:manipulation2000@hotmail.com" },
     ],
   },

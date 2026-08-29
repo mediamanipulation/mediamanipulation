@@ -100,16 +100,23 @@ export default function SectionRenderer({ section }) {
             </div>
             {section.items && section.items.length > 0 ? (
               <div className="cards">
-                {section.items.map((it, i) => (
-                  <article className="card reveal" key={it.t} data-delay={String(i * 0.06)}>
-                    <div>
-                      <div className="card-k">{it.k}</div>
-                      <h3 className="card-t">{it.t}</h3>
-                      <p className="card-d">{it.d}</p>
-                    </div>
-                    {it.tag && <span className="card-tag">{it.tag}</span>}
-                  </article>
-                ))}
+                {section.items.map((it, i) => {
+                  // it.href makes the whole card a link, opened in a new tab
+                  const Tag = it.href ? "a" : "article";
+                  const linkProps = it.href
+                    ? { href: it.href, target: "_blank", rel: "noopener" }
+                    : {};
+                  return (
+                    <Tag className="card reveal" key={it.t} data-delay={String(i * 0.06)} {...linkProps}>
+                      <div>
+                        <div className="card-k">{it.k}</div>
+                        <h3 className="card-t">{it.t}</h3>
+                        <p className="card-d">{it.d}</p>
+                      </div>
+                      {it.tag && <span className="card-tag">{it.tag}</span>}
+                    </Tag>
+                  );
+                })}
               </div>
             ) : (
               <p className="cards-empty reveal">{section.empty || "Work landing soon."}</p>

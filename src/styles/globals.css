@@ -407,6 +407,13 @@ button { font-family: inherit; cursor: pointer; }
 .footer .footer-links a { font-family: var(--type-mono); font-size: var(--fs-xs); color: var(--color-muted); transition: color 0.2s; }
 .footer .footer-links a:hover { color: var(--color-accent2); }
 
+/* --- static crawler/no-JS summary (index.html #crawler-summary) ---
+   Visible only while #root is empty; the moment the app mounts, the sibling
+   selector hides it. Bots and no-JS readers get real text either way. */
+#crawler-summary { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem; color: var(--color-fg, #e8ecf4); }
+#crawler-summary a { color: var(--color-accent2, #12f7d6); }
+#root:not(:empty) ~ #crawler-summary { display: none; }
+
 .reveal { opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
