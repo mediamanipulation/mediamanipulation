@@ -412,7 +412,7 @@ button { font-family: inherit; cursor: pointer; }
    lifted blacks + center hotspot (projectors can't do black), misconverged
    red/cyan ghost frames, light spill, soft edge falloff, and a lazy flicker.
    Opt in per cards-section via `variant: "projector"` in site.config.js. */
-.projector-stage { max-width: 720px; margin: 0 auto; }
+.projector-stage { max-width: 980px; margin: 0 auto; }
 .stage-hud {
   display: flex;
   justify-content: space-between;
@@ -454,7 +454,7 @@ button { font-family: inherit; cursor: pointer; }
     transparent 100%
   );
   box-shadow: 0 0 clamp(40px, 6vw, 95px) rgba(175, 196, 255, 0.13);
-  transform: perspective(900px) rotateX(var(--proj-rx)) rotateY(var(--proj-ry)) rotate(var(--proj-rot));
+  transform: perspective(2000px) rotateX(var(--proj-rx)) rotateY(var(--proj-ry)) rotate(var(--proj-rot));
   transition: filter 0.3s, box-shadow 0.3s, background 0.3s, opacity 0.3s;
 }
 /* the live slide: strike on with a bulb flash, then idle-flicker until swapped */
@@ -549,11 +549,12 @@ button { font-family: inherit; cursor: pointer; }
   text-shadow: 0 0 10px rgba(245, 217, 10, 0.6);
   box-shadow: 0 0 16px rgba(245, 217, 10, 0.16), inset 0 0 10px rgba(245, 217, 10, 0.07);
 }
-/* every projector sits somewhere different: real keystone, alternating throw side */
-.cards--projector .card:nth-child(3n + 1) { --proj-rx: 0.8deg; --proj-ry: -8deg; --proj-rot: -0.6deg; }
-.cards--projector .card:nth-child(3n + 2) { --proj-rx: -0.6deg; --proj-ry: 7deg; --proj-rot: 0.45deg; }
-.cards--projector .card:nth-child(3n)     { --proj-rx: 1deg; --proj-ry: -6.5deg; --proj-rot: 0.6deg; }
-.cards--projector .card:nth-child(4n)     { --proj-ry: 8.5deg; --proj-rot: -0.3deg; }
+/* every projector sits somewhere slightly different: gentle 70mm keystone,
+   alternating throw side — a big steady print, not a wobbling sliver */
+.cards--projector .card:nth-child(3n + 1) { --proj-rx: 0.4deg; --proj-ry: -2.2deg; --proj-rot: -0.25deg; }
+.cards--projector .card:nth-child(3n + 2) { --proj-rx: -0.3deg; --proj-ry: 1.9deg; --proj-rot: 0.2deg; }
+.cards--projector .card:nth-child(3n)     { --proj-rx: 0.5deg; --proj-ry: -1.8deg; --proj-rot: 0.25deg; }
+.cards--projector .card:nth-child(4n)     { --proj-ry: 2.3deg; --proj-rot: -0.15deg; }
 /* right-thrown cards (positive rotateY): beam enters from the right instead */
 .cards--projector .card:nth-child(3n + 2)::before,
 .cards--projector .card:nth-child(4n)::before {
