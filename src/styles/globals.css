@@ -433,6 +433,9 @@ button { font-family: inherit; cursor: pointer; }
   grid-template-columns: 1fr;
 }
 .cards--projector.stage-stack .card { grid-area: 1 / 1; }
+/* text slides hold true 70mm frame proportions (2.2:1); video slides get
+   their height from the clip itself */
+.cards--projector.stage-stack .card:not(.card--video) { aspect-ratio: 2.2 / 1; }
 .cards--projector .card {
   /* per-card aim + power-on order — varied by nth-child below */
   --proj-rx: 0.6deg;
