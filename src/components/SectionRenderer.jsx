@@ -1,32 +1,62 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import FeedbackScene from "../three/FeedbackScene.jsx";
 import Marquee from "./Marquee.jsx";
 import HeroTerminal from "./HeroTerminal.jsx";
 
-/* Variant card grids run their own in-view trigger instead of `.reveal` —
-   GSAP's y-tween would leave an inline transform that overrides the cards'
-   CSS transforms (e.g. the projector keystone). Adds `.is-on` once. */
-function VariantCardsGrid({ section, children }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          el.classList.add("is-on");
-          io.disconnect();
-        });
-      },
-      { threshold: 0.2 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+function renderCard(it, extraClass = "", revealProps = {}) {
+  // it.href makes the whole card a link, opened in a new tab
+  const Tag = it.href ? "a" : "article";
+  const linkProps = it.href
+    ? { href: it.href, target: "_blank", rel: "noopener" }
+    : {};
   return (
-    <div ref={ref} className={`cards cards--${section.variant}`}>
-      {children}
+    <Tag className={`card${extraClass}`} key={it.t} {...revealProps} {...linkProps}>
+      <div>
+        <div className="card-k">{it.k}</div>
+        <h3 className="card-t">{it.t}</h3>
+        <p className="card-d">{it.d}</p>
+      </div>
+      {it.tag && <span className="card-tag">{it.tag}</span>}
+    </Tag>
+  );
+}
+
+const HOLD_MS = 5500;
+
+/* One projection at a time, looping: the cards stack on a single "screen"
+   and the reel advances on a timer. Hover pauses the projector. Cards keep
+   their own CSS transforms (keystone), so no GSAP/.reveal here. */
+function ProjectorStage({ section }) {
+  const n = section.items.length;
+  const [idx, setIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const reduced =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  useEffect(() => {
+    if (paused || reduced || n < 2) return;
+    const t = setInterval(() => setIdx((i) => (i + 1) % n), HOLD_MS);
+    return () => clearInterval(t);
+  }, [paused, reduced, n]);
+
+  return (
+    <div
+      className="projector-stage"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className="stage-hud" aria-hidden="true">
+        <span className={paused ? "" : "hud-rec"}>{paused ? "❚❚ HOLD" : "● LOOP"}</span>
+        <span>
+          REEL {String(idx + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
+        </span>
+      </div>
+      <div className={`cards cards--${section.variant} stage-stack`}>
+        {section.items.map((it, i) =>
+          renderCard(it, i === idx ? " is-live" : "")
+        )}
+      </div>
     </div>
   );
 }
@@ -128,38 +158,15 @@ export default function SectionRenderer({ section }) {
               <h2 className="display section-title reveal" data-delay="0.05">{section.title}</h2>
             </div>
             {section.items && section.items.length > 0 ? (
-              (() => {
-                const cards = section.items.map((it, i) => {
-                  // it.href makes the whole card a link, opened in a new tab
-                  const Tag = it.href ? "a" : "article";
-                  const linkProps = it.href
-                    ? { href: it.href, target: "_blank", rel: "noopener" }
-                    : {};
-                  const revealProps = section.variant
-                    ? {}
-                    : { "data-delay": String(i * 0.06) };
-                  return (
-                    <Tag
-                      className={section.variant ? "card" : "card reveal"}
-                      key={it.t}
-                      {...revealProps}
-                      {...linkProps}
-                    >
-                      <div>
-                        <div className="card-k">{it.k}</div>
-                        <h3 className="card-t">{it.t}</h3>
-                        <p className="card-d">{it.d}</p>
-                      </div>
-                      {it.tag && <span className="card-tag">{it.tag}</span>}
-                    </Tag>
-                  );
-                });
-                return section.variant ? (
-                  <VariantCardsGrid section={section}>{cards}</VariantCardsGrid>
-                ) : (
-                  <div className="cards">{cards}</div>
-                );
-              })()
+              section.variant ? (
+                <ProjectorStage section={section} />
+              ) : (
+                <div className="cards">
+                  {section.items.map((it, i) =>
+                    renderCard(it, " reveal", { "data-delay": String(i * 0.06) })
+                  )}
+                </div>
+              )
             ) : (
               <p className="cards-empty reveal">{section.empty || "Work landing soon."}</p>
             )}
