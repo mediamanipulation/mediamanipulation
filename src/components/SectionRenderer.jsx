@@ -1,6 +1,35 @@
+import { useEffect, useRef } from "react";
 import FeedbackScene from "../three/FeedbackScene.jsx";
 import Marquee from "./Marquee.jsx";
 import HeroTerminal from "./HeroTerminal.jsx";
+
+/* Variant card grids run their own in-view trigger instead of `.reveal` —
+   GSAP's y-tween would leave an inline transform that overrides the cards'
+   CSS transforms (e.g. the projector keystone). Adds `.is-on` once. */
+function VariantCardsGrid({ section, children }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          el.classList.add("is-on");
+          io.disconnect();
+        });
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className={`cards cards--${section.variant}`}>
+      {children}
+    </div>
+  );
+}
 
 /* Maps a config `section` object to markup based on section.type.
  * To add a new section type: add a case here + an entry in site.config.js.
@@ -99,11 +128,8 @@ export default function SectionRenderer({ section }) {
               <h2 className="display section-title reveal" data-delay="0.05">{section.title}</h2>
             </div>
             {section.items && section.items.length > 0 ? (
-              /* With a variant (e.g. "projector"), the reveal runs on the grid,
-                 not the cards — GSAP's y-tween leaves an inline transform that
-                 would override the cards' own CSS transforms. */
-              <div className={`cards${section.variant ? ` cards--${section.variant} reveal` : ""}`}>
-                {section.items.map((it, i) => {
+              (() => {
+                const cards = section.items.map((it, i) => {
                   // it.href makes the whole card a link, opened in a new tab
                   const Tag = it.href ? "a" : "article";
                   const linkProps = it.href
@@ -127,8 +153,13 @@ export default function SectionRenderer({ section }) {
                       {it.tag && <span className="card-tag">{it.tag}</span>}
                     </Tag>
                   );
-                })}
-              </div>
+                });
+                return section.variant ? (
+                  <VariantCardsGrid section={section}>{cards}</VariantCardsGrid>
+                ) : (
+                  <div className="cards">{cards}</div>
+                );
+              })()
             ) : (
               <p className="cards-empty reveal">{section.empty || "Work landing soon."}</p>
             )}
