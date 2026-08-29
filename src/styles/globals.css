@@ -464,26 +464,6 @@ button { font-family: inherit; cursor: pointer; }
     proj-warmup 0.85s ease-out both,
     proj-flicker 7s linear 1.1s infinite;
 }
-/* the throw: a hazy light cone converging toward an off-frame projector.
-   Inherits the card's brightness filter, so it flickers with its projection. */
-.cards--projector .card::before {
-  content: "";
-  position: absolute;
-  top: 4%;
-  bottom: 4%;
-  right: 94%;
-  width: 78%;
-  background: linear-gradient(
-    to left,
-    rgba(216, 228, 255, 0.17),
-    rgba(216, 228, 255, 0.05) 62%,
-    transparent 95%
-  );
-  clip-path: polygon(100% 0%, 100% 100%, 0% 61%, 0% 47%);
-  filter: blur(6px);
-  pointer-events: none;
-  z-index: -1;
-}
 /* video slides: the clip IS the card (title/copy/tag baked into the film) */
 .cards--projector .card.card--video { padding: 0; background: none; }
 .cards--projector .card.card--video::after { display: none; } /* clip carries its own grain */
@@ -555,19 +535,6 @@ button { font-family: inherit; cursor: pointer; }
 .cards--projector .card:nth-child(3n + 2) { --proj-rx: -0.3deg; --proj-ry: 1.9deg; --proj-rot: 0.2deg; }
 .cards--projector .card:nth-child(3n)     { --proj-rx: 0.5deg; --proj-ry: -1.8deg; --proj-rot: 0.25deg; }
 .cards--projector .card:nth-child(4n)     { --proj-ry: 2.3deg; --proj-rot: -0.15deg; }
-/* right-thrown cards (positive rotateY): beam enters from the right instead */
-.cards--projector .card:nth-child(3n + 2)::before,
-.cards--projector .card:nth-child(4n)::before {
-  right: auto;
-  left: 94%;
-  background: linear-gradient(
-    to right,
-    rgba(216, 228, 255, 0.17),
-    rgba(216, 228, 255, 0.05) 62%,
-    transparent 95%
-  );
-  clip-path: polygon(0% 0%, 0% 100%, 100% 61%, 100% 47%);
-}
 /* hover = a hand on the focus ring: steady, brighter, sharper */
 .cards--projector .card:hover {
   animation-play-state: paused;
