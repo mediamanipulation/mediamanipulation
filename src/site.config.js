@@ -175,6 +175,7 @@ export const config = {
     {
       id: "work",
       type: "cards",
+      variant: "projector", // cards rendered as cheap-projector throws on the wall
       eyebrow: "01 / WORK",
       title: "Selected transmissions",
       // Add projects here and the grid fills automatically. Shape of each item:

@@ -99,15 +99,26 @@ export default function SectionRenderer({ section }) {
               <h2 className="display section-title reveal" data-delay="0.05">{section.title}</h2>
             </div>
             {section.items && section.items.length > 0 ? (
-              <div className="cards">
+              /* With a variant (e.g. "projector"), the reveal runs on the grid,
+                 not the cards — GSAP's y-tween leaves an inline transform that
+                 would override the cards' own CSS transforms. */
+              <div className={`cards${section.variant ? ` cards--${section.variant} reveal` : ""}`}>
                 {section.items.map((it, i) => {
                   // it.href makes the whole card a link, opened in a new tab
                   const Tag = it.href ? "a" : "article";
                   const linkProps = it.href
                     ? { href: it.href, target: "_blank", rel: "noopener" }
                     : {};
+                  const revealProps = section.variant
+                    ? {}
+                    : { "data-delay": String(i * 0.06) };
                   return (
-                    <Tag className="card reveal" key={it.t} data-delay={String(i * 0.06)} {...linkProps}>
+                    <Tag
+                      className={section.variant ? "card" : "card reveal"}
+                      key={it.t}
+                      {...revealProps}
+                      {...linkProps}
+                    >
                       <div>
                         <div className="card-k">{it.k}</div>
                         <h3 className="card-t">{it.t}</h3>
