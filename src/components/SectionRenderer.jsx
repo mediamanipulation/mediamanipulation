@@ -62,7 +62,6 @@ function ProjectorStage({ section }) {
       onMouseLeave={() => setPaused(false)}
     >
       <div className="stage-hud" aria-hidden="true">
-        <span className={paused ? "" : "hud-rec"}>{paused ? "❚❚ HOLD" : "● LOOP"}</span>
         <span>
           REEL {String(idx + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
         </span>

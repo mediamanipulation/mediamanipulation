@@ -415,7 +415,7 @@ button { font-family: inherit; cursor: pointer; }
 .projector-stage { max-width: 980px; margin: 0 auto; }
 .stage-hud {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   font-family: var(--type-mono);
   font-size: var(--fs-xs);
   letter-spacing: 0.22em;
