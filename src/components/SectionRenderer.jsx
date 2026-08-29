@@ -9,6 +9,21 @@ function renderCard(it, extraClass = "", revealProps = {}) {
   const linkProps = it.href
     ? { href: it.href, target: "_blank", rel: "noopener" }
     : {};
+  // it.video replaces the card's rendered content with a film clip of it —
+  // the clip already carries the title/description/tag baked in.
+  if (it.video) {
+    return (
+      <Tag
+        className={`card card--video${extraClass}`}
+        key={it.t}
+        aria-label={it.t}
+        {...revealProps}
+        {...linkProps}
+      >
+        <video src={it.video} autoPlay muted loop playsInline preload="auto" />
+      </Tag>
+    );
+  }
   return (
     <Tag className={`card${extraClass}`} key={it.t} {...revealProps} {...linkProps}>
       <div>

@@ -484,6 +484,16 @@ button { font-family: inherit; cursor: pointer; }
   pointer-events: none;
   z-index: -1;
 }
+/* video slides: the clip IS the card (title/copy/tag baked into the film) */
+.cards--projector .card.card--video { padding: 0; background: none; }
+.cards--projector .card.card--video::after { display: none; } /* clip carries its own grain */
+.cards--projector .card--video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: inherit;
+}
+
 /* the print itself: film grain + scanlines over the throw, edges falling out of focus */
 .cards--projector .card::after {
   content: "";

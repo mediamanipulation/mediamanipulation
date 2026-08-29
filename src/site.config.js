@@ -185,37 +185,37 @@ export const config = {
       empty: "New transmissions incoming — work landing here soon.",
       items: [
         {
-          k: "MOTION", t: "The Rising",
+          k: "MOTION", t: "The Rising", video: "/cards/the_rising.mp4",
           d: "A grindhouse short performed by a trained identity — LoRA-consistent character, agent-assisted shots, assembled end to end by the studio pipeline.",
           tag: "SHORT FILM", href: "https://www.youtube.com/watch?v=z3QFIJ-98f8",
         },
         {
-          k: "CODE", t: "Grindhouse",
+          k: "CODE", t: "Grindhouse", video: "/cards/grindhouse.mp4",
           d: "1970s film-print damage for ComfyUI — gate weave, halation, dust, scratch. Decay, calibrated. It ran its own 30-second broadcast ad.",
           tag: "COMFYUI NODE", href: "https://www.youtube.com/watch?v=TvmnEcIMEOY",
         },
         {
-          k: "DEV", t: "Cutroom / Greenlight",
+          k: "DEV", t: "Cutroom / Greenlight", video: "/cards/cutroom_greenlight.mp4",
           d: "A film studio that runs itself — WYSIWYG editor with an embedded AI copilot, carrying a script all the way to finished export.",
           tag: "PLATFORM",
         },
         {
-          k: "CODE", t: "Optimizer University",
+          k: "CODE", t: "Optimizer University", video: "/cards/optimizer_university.mp4",
           d: "Twelve interactive DSPy prompt-optimization notebooks with real before/after results. Measure · iterate · improve.",
           tag: "NOTEBOOKS", href: "https://github.com/mediamanipulation/dspy-optimization-notebooks",
         },
         {
-          k: "CODE", t: "ASL Classifier",
+          k: "CODE", t: "ASL Classifier", video: "/cards/asl_classifier.mp4",
           d: "99.96% in the lab, 11.3% in the wild. The diagnosis, the fix, and a synthetic-data machine built inside Unreal Engine.",
           tag: "ML", href: "https://github.com/mediamanipulation/ASL-classifier",
         },
         {
-          k: "DEV", t: "Context Bridge",
+          k: "DEV", t: "Context Bridge", video: "/cards/context_bridge.mp4",
           d: "A VS Code extension that streams developer intent — behavior, never code — into AI agent sessions.",
           tag: "EXTENSION", href: "https://github.com/mediamanipulation/context-bridge",
         },
         {
-          k: "ART", t: "Nexus Tarot",
+          k: "ART", t: "Nexus Tarot", video: "/cards/nexus_tarot.mp4",
           d: "A multi-agent tarot entity — DSPy reasoning components, three interfaces, one voice bridging silicon and spirit.",
           tag: "AGENTIC",
         },
