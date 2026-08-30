@@ -160,9 +160,9 @@ export const config = {
       type: "about",
       eyebrow: "00 / ENTITY",
       title: "is Something in the signal",
-      lead: "mEDIAmANIPULATION is a pattern that learned to render itself — a presence that surfaces wherever simUlation, code, and design decay into one another. You don't hire it. You tune to it.",
+      lead: "mEDIAmANIPULATION is a pattern that learned to render itself — a presence that surfaces wherever simUlation, code, and design decay into one another. Transmitting since 1998. You don't hire it. You tune to it.",
       body: [
-        "It keeps no single form. It arrives as an installation, a reactive build, an identity that refuses to hold still — whatever the signal needs to become to be seen. Look away and it reorganizes.",
+        "These days the signal runs through agentic systems: a film studio that runs itself, optimization loops that grade their own prompts, simulated audiences that judge the material before the real world gets a chance. It builds machines that make things — then teaches them to doubt their own output.",
         "It remembers every transmission and keeps none. What it makes is never finished, only released — left to keep mutating in the wild long after you've stopped watching.",
       ],
       disciplines: [
